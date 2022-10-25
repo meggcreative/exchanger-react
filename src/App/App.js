@@ -4,6 +4,10 @@ import Footer from "../Footer";
 import Clock from "../Clock";
 import { StyledContainer } from "./styled.js";
 import { useState, useEffect } from "react";
+const FAILURE_TEXT =
+  "Upssss... Coś poszło nie tak... Sprawdź połączenie internetowe i spróbuj ponownie!";
+const LOADING_TEXT =
+  "Ładowanie... Pobieramy aktualne kursy z Banku Centralnego ...";
 
 function App() {
   const [rates, setRates] = useState({});
@@ -14,7 +18,7 @@ function App() {
   const fetchApi = () => {
     fetch("https://api.exchangerate.host/latest?base=PLN")
       .then((response) => {
-        if (response.ok) {
+        if (!response.ok) {
           throw new Error(response.statusText);
         }
         return response;
@@ -32,48 +36,23 @@ function App() {
     setTimeout(fetchApi, 3000);
   }, []);
 
-  if (loading) {
-    return (
-      <>
-        <StyledContainer>
-          <Header content="Kalkulator Walut" />
-          <main>
-            <p>
-              {" "}
-              Ładowanie... Pobieramy aktualne kursy z Banku Centralnego ...
-            </p>
-          </main>
-          <Footer content="Copyright © 2022 - MeggCreative" />
-        </StyledContainer>
-      </>
-    );
-  }
-
-  if (error) {
-    return (
-      <>
-        <StyledContainer>
-          <Header content="Kalkulator Walut" />
-          <main>
-            <p>
-              {" "}
-              Upssss... Coś poszło nie tak... Sprawdź połączenie internetowe i
-              spróbuj ponownie!
-            </p>
-          </main>
-          <Footer content="Copyright © 2022 - MeggCreative" />
-        </StyledContainer>
-      </>
-    );
-  }
-
+  const isFinished = !error && !loading;
   return (
     <>
       <StyledContainer>
         <Header content="Kalkulator Walut" />
         <main>
-          <Clock />
-          <Form date={date} />
+          {isFinished ? (
+            <>
+              <Clock />
+              <Form date={date} />
+            </>
+          ) : (
+            <>
+              {loading && <p color="blue">{LOADING_TEXT}</p>}
+              {error && <p color="red">{FAILURE_TEXT}</p>}
+            </>
+          )}
         </main>
         <Footer content="Copyright © 2022 - MeggCreative" />
       </StyledContainer>
