@@ -55,3 +55,8 @@ export const StyledButton = styled.button`
     background-color: rgba(113, 129, 124, 0.25);
   }
 `;
+export const StyledParagraph = styled.p`
+  color: ${({ theme }) => theme.colors.twilightBlue};
+  font-size: 15px;
+  align-self: center;
+`;
