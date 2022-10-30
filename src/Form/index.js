@@ -1,6 +1,5 @@
 import { useState, useRef } from "react";
 import Result from "../Result";
-import currencies from "../currencies.js";
 import {
   StyledForm,
   StyledFieldset,
@@ -8,11 +7,12 @@ import {
   StyledLegend,
   StyledInput,
   StyledButton,
+  StyledParagraph,
 } from "./styled.js";
 
-const Form = ({ date }) => {
+const Form = ({ date, rates }) => {
   const [amount, setAmount] = useState("");
-  const [currency, setCurrency] = useState(currencies[0].id);
+  const [currency, setCurrency] = useState();
   const [result, setResult] = useState("");
   const inputRef = useRef(null);
 
@@ -21,11 +21,12 @@ const Form = ({ date }) => {
   };
 
   const calculateResult = (amount, currency) => {
-    const targetRate = currencies.find(({ id }) => id === currency).rate;
+    const targetRate = rates[currency];
+    console.log(targetRate);
 
     setResult({
       originalAmount: +amount,
-      finalResult: amount / targetRate,
+      finalResult: amount * targetRate,
       currency: currency,
     });
   };
@@ -67,10 +68,10 @@ const Form = ({ date }) => {
               value={currency}
               onChange={(event) => setCurrency(event.target.value)}
             >
-              {currencies.map((currency) => {
+              {Object.keys(rates).map((rateKey) => {
                 return (
-                  <option key={currency.id} value={currency.id}>
-                    {currency.name}
+                  <option key={rateKey} value={rateKey}>
+                    {rateKey}:{rates[rateKey]}
                   </option>
                 );
               })}
@@ -79,7 +80,9 @@ const Form = ({ date }) => {
         </p>
       </StyledFieldset>
       <StyledButton onClick={focusInput}>Przelicz</StyledButton>
-      <p>{date}</p>
+      <StyledParagraph>
+        Kurs pobrano z Narodowego Banku Polskiego z dnia: {date}
+      </StyledParagraph>
       <Result result={result} />
     </StyledForm>
   );
