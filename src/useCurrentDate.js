@@ -13,13 +13,5 @@ export const useCurrentDate = () => {
     };
   }, []);
 
-  const dateContent = date.toLocaleDateString(undefined, {
-    weekday: "long",
-    day: "numeric",
-    month: "long",
-  });
-
-  const timeContent = date.toLocaleTimeString();
-
-  return { dateContent, timeContent };
+  return date;
 };
