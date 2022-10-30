@@ -1,13 +1,14 @@
+import { useState, useEffect } from "react";
 import Header from "../Header";
 import Form from "../Form";
 import Footer from "../Footer";
 import Clock from "../Clock";
-import { StyledContainer } from "./styled.js";
-import { useState, useEffect } from "react";
+import { StyledContainer, StyledParagraph } from "./styled.js";
+
 const FAILURE_TEXT =
   "Upssss... Coś poszło nie tak... Sprawdź połączenie internetowe i spróbuj ponownie!";
 const LOADING_TEXT =
-  "Ładowanie... Pobieramy aktualne kursy z Banku Centralnego ...";
+  "Ładowanie... Pobieramy aktualne kursy z Narodowego Banku Polskiego ...";
 
 function App() {
   const [rates, setRates] = useState({});
@@ -15,21 +16,23 @@ function App() {
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(false);
 
-  const fetchApi = () => {
-    fetch("https://api.exchangerate.host/latest?base=PLN")
-      .then((response) => {
-        if (!response.ok) {
-          throw new Error(response.statusText);
-        }
-        return response;
-      })
-      .then((response) => response.json())
-      .then((dataRates) => {
-        setRates(dataRates.rates);
-        setDate(dataRates.date);
-        setLoading(false);
-      })
-      .catch(() => setError(true));
+  const fetchApi = async () => {
+    try {
+      const myResponse = await fetch(
+        "https://api.exchangerate.host/latest?base=PLN"
+      );
+      if (!myResponse.ok) {
+        throw new Error(myResponse.statusText);
+      }
+
+      const dataRates = await myResponse.json();
+      setRates(dataRates.rates);
+      setDate(dataRates.date);
+      setLoading(false);
+    } catch (error) {
+      setLoading(false);
+      setError(true);
+    }
   };
 
   useEffect(() => {
@@ -45,12 +48,12 @@ function App() {
           {isFinished ? (
             <>
               <Clock />
-              <Form date={date} />
+              <Form date={date} rates={rates} />
             </>
           ) : (
             <>
-              {loading && <p color="blue">{LOADING_TEXT}</p>}
-              {error && <p color="red">{FAILURE_TEXT}</p>}
+              {loading && <StyledParagraph>{LOADING_TEXT}</StyledParagraph>}
+              {error && <StyledParagraph>{FAILURE_TEXT}</StyledParagraph>}
             </>
           )}
         </main>
