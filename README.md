@@ -1,12 +1,12 @@
 # Currency Converter with Create React App
 
-This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app). It is a simple currency converter application.This currency converter shows which amount we will get and how much if we want to change PLN for it. Currency to pick: EUR/USD.
+This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app). It is a simple currency converter application.This currency converter shows which amount we will get and how much if we want to change PLN for it. Different currency to pick which are imported from API. Application shows also real local time.
 
 ## Preview the converter
 
 [ Lets go to currency converter](https://meggcreative.github.io/exchanger-react/)
 
-![currency-converter](http://g.recordit.co/HrMRRmUGxC.gif)
+![currency-converter](http://g.recordit.co/mpsx2uyXpi.gif)
 
 ## Used Technologies
 
@@ -15,6 +15,8 @@ This project was bootstrapped with [Create React App](https://github.com/faceboo
 3. CSS Flexbox / Grid
 4. BEM convenction
 5. ES6+
+6. Styled Components
+7. Data imported from API
 
 ## Usage
 
