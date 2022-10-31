@@ -12,7 +12,7 @@ import {
 
 const Form = ({ date, rates }) => {
   const [amount, setAmount] = useState("");
-  const [currency, setCurrency] = useState();
+  const [currency, setCurrency] = useState("EUR");
   const [result, setResult] = useState("");
   const inputRef = useRef(null);
 
@@ -22,7 +22,6 @@ const Form = ({ date, rates }) => {
 
   const calculateResult = (amount, currency) => {
     const targetRate = rates[currency];
-    console.log(targetRate);
 
     setResult({
       originalAmount: +amount,
