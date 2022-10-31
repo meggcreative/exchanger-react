@@ -13,7 +13,7 @@ html {
 body {
   font-family: "Source Sans Pro", sans-serif;
   background-image: url("${cash}");
-  background-size: cover;
+  background-size: auto auto;
   background-position: top;
   background-repeat: no-repeat;
 }
