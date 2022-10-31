@@ -11,15 +11,14 @@ const LOADING_TEXT =
   "Ładowanie... Pobieramy aktualne kursy z Narodowego Banku Polskiego ...";
 
 function App() {
-  const { rates, date, loading, error } = useCurrentRatesData();
+  const { rates, date, loading, error, isReady } = useCurrentRatesData();
 
-  const isFinished = !error && !loading;
   return (
     <>
       <StyledContainer>
         <Header content="Kalkulator Walut" />
         <main>
-          {isFinished ? (
+          {isReady ? (
             <>
               <Clock />
               <Form date={date} rates={rates} />

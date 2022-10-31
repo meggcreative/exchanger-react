@@ -20,14 +20,16 @@ export const useCurrentRatesData = () => {
       setDate(dataRates.date);
       setLoading(false);
     } catch (error) {
-      setLoading(false);
       setError(true);
+      setLoading(false);
     }
   };
 
   useEffect(() => {
-    setTimeout(fetchApi, 3000);
+    setTimeout(fetchApi, 1000);
   }, []);
 
-  return { rates, date, loading, error };
+  const isReady = !error && !loading;
+
+  return { rates, date, loading, error, isReady };
 };
